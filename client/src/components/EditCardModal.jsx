@@ -4,19 +4,21 @@ import React, { useState } from "react";
 export default function EditCardModal({ isOpen, onClose, notecard, onSave }) {
   const [title, setTitle] = useState(notecard?.title || "");
   const [body, setBody] = useState(notecard?.body || "");
+  const [originalTitle, setOriginalTitle] = useState("");
 
   // Reset the fields whenever the modal is opened for a new card
   React.useEffect(() => {
     if (notecard) {
       setTitle(notecard.title);
       setBody(notecard.body);
+      setOriginalTitle(notecard.title);
     }
   }, [notecard]);
 
   if (!isOpen) return null;
 
   const handleSave = () => {
-    onSave({ ...notecard, title, body });
+    onSave({ ...notecard, originalTitle, title, body });
   };
 
   return (

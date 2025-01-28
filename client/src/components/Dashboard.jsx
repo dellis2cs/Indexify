@@ -27,7 +27,7 @@ export default function Dashboard() {
   useEffect(() => {
     const fetchNotecards = async () => {
       const userId = localStorage.getItem("userId");
-      console.log(userId);
+
       try {
         const response = await fetch("http://localhost:3000/notecards", {
           method: "GET",
@@ -48,7 +48,7 @@ export default function Dashboard() {
 
     fetchNotecards();
     // We can remove [notecards] from the deps array to avoid infinite re-fetching
-  }, [token]);
+  }, [token, notecards]);
 
   // Filter notecards by searchTerm
   const filteredNotecards = notecards.filter(
@@ -109,8 +109,6 @@ export default function Dashboard() {
     setSelectedNotecard(null);
   };
 
-  // EDIT Logic: PUT -> http://localhost:3000/:title
-  // Function to open the edit modal
   const handleEdit = (notecard, e) => {
     e.stopPropagation(); // Prevent modal opening from card click
     setEditNotecard(notecard);
@@ -120,7 +118,7 @@ export default function Dashboard() {
   const handleSaveEdit = async (updatedNotecard) => {
     try {
       const response = await fetch(
-        `http://localhost:3000/${updatedNotecard.title}`,
+        `http://localhost:3000/${updatedNotecard.originalTitle}`,
         {
           method: "PUT",
           headers: {
@@ -141,6 +139,7 @@ export default function Dashboard() {
             card.id === updatedCard._id ? { ...card, ...updatedCard } : card
           )
         );
+
         setEditModalOpen(false); // Close the modal after saving
       } else {
         console.error("Failed to save edits");

@@ -48,7 +48,7 @@ exports.editUserCard = async (req, res) => {
   const { title } = req.params;
   const { body, newTitle } = req.body;
   const userId = req.user.id; // Filter by userId to ensure ownership
-
+  console.log(body, title);
   try {
     const card = await Card.findOne({ title, userId });
     if (!card) {
@@ -56,7 +56,7 @@ exports.editUserCard = async (req, res) => {
         .status(404)
         .json({ message: "Card not found or not authorized" });
     }
-
+    console.log("title:", newTitle);
     if (body) card.body = body;
     if (newTitle) card.title = newTitle;
 
