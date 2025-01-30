@@ -54,7 +54,7 @@ export default function Dashboard() {
   const filteredNotecards = notecards.filter(
     (notecard) =>
       notecard.title &&
-      notecard.title.toLowerCase().includes(searchTerm.toLowerCase())
+      notecard.title.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   // Upload a new PDF -> create a new notecard
@@ -79,7 +79,7 @@ export default function Dashboard() {
               Authorization: `Bearer ${token}`, // if needed
             },
             body: formData,
-          }
+          },
         );
 
         if (!response.ok) {
@@ -129,15 +129,15 @@ export default function Dashboard() {
             newTitle: updatedNotecard.title,
             body: updatedNotecard.body,
           }),
-        }
+        },
       );
 
       if (response.ok) {
         const { updatedCard } = await response.json();
         setNotecards((prev) =>
           prev.map((card) =>
-            card.id === updatedCard._id ? { ...card, ...updatedCard } : card
-          )
+            card.id === updatedCard._id ? { ...card, ...updatedCard } : card,
+          ),
         );
 
         setEditModalOpen(false); // Close the modal after saving
@@ -154,7 +154,7 @@ export default function Dashboard() {
     e.stopPropagation(); // Prevent opening the modal
 
     const confirmDelete = window.confirm(
-      `Are you sure you want to delete "${notecard.title}"?`
+      `Are you sure you want to delete "${notecard.title}"?`,
     );
     if (!confirmDelete) return;
 
@@ -170,7 +170,7 @@ export default function Dashboard() {
         console.log("Notecard deleted successfully");
         // Remove it from state
         setNotecards((prev) =>
-          prev.filter((card) => card.title !== notecard.title)
+          prev.filter((card) => card.title !== notecard.title),
         );
       } else {
         console.error("Failed to delete notecard");
@@ -272,11 +272,11 @@ export default function Dashboard() {
           {filteredNotecards.map((notecard) => (
             <div
               key={notecard.id || notecard._id} // Ensure unique key
-              className={`bg-earthyCream p-4 rounded-lg shadow-md ${
+              className={`bg-earthyCream p-5 rounded-lg shadow-md ${
                 view === "grid"
                   ? "flex flex-col"
                   : "flex items-center justify-between"
-              } cursor-pointer hover:shadow-lg transition-shadow`}
+              } cursor-pointer hover:shadow-lg hover:scale-[105%] duration-[0.25s] transition-all`}
               onClick={() => openModal(notecard)}
             >
               <div className="flex items-center mb-2">
